@@ -120,9 +120,14 @@ form {
     color: #FFC736;
 }
 
-form label {
+label {
     color: #FFC736;
     font-weight: 600;
+}
+
+#label_busca {
+    font-size: 1.1rem;
+    margin-right: 0.3rem;
 }
 
 form button {
@@ -141,6 +146,6 @@ form button {
     justify-content: center;
 }
 
-#btn_configuracoes {
+#btn_sair {
     display: flex;
 }
