@@ -2,21 +2,25 @@
 
 ## TABLES 
 
+CREATE SCHEMA notepad;
+
+SET search_path to notepad;
+
 CREATE TABLE users (
 	id SERIAL PRIMARY KEY,	
 	nome VARCHAR(40) NOT NULL,
-	email VARCHAR (100) UNIQUE NOT NULL
-	senha VARCHAR(255) NOT NULL  -- Exemplo de campo para armazenar a senha hash
+	email VARCHAR (100) UNIQUE NOT NULL,
+	hash VARCHAR(255) NOT NULL,
 	criado_em TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     atualizado_em TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
 CREATE TABLE notes (
 	id SERIAL PRIMARY KEY,
-	user_id INT NOT NULL
+	user_id INT NOT NULL,
 	title VARCHAR (20) NOT NULL UNIQUE,
 	content text,
 	criado_em TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 	atualizado_em TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-	FOREIGN KEY (user_id)
-)
+	FOREIGN KEY (user_id) REFERENCES users(id)
+);
