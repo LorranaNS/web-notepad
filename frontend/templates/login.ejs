@@ -8,6 +8,10 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Notepad - Login</title>
+    <link 
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" 
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous"
+    />
 
     <link rel="stylesheet" href="css/principal.css" />
     <link
@@ -30,18 +34,25 @@
             <span></span>
         </button>
         <nav id="menu">
-            <a href="/frontend/templates/cadastro.html">CADASTRO</a>
+            <a href="/cadastrar">CADASTRO</a>
         </nav>
     </header>
+    <% if (success_msg) { %>
+        <div class="alert alert-success hidden" id= "success-alert"><%= success_msg %></div>
+    <% } %>
+
+    <% if (error_msg) { %>
+        <div class="alert alert-danger hidden" id="error-alert"><%= error_msg %></div>
+    <% } %>
 
     <div class="container">
-        <form id="form_login">
+        <form action="/login" method="POST" id="form_login">
             <div class="titulo_form">
                 <h1>ENTRE NA SUA CONTA</h1>
             </div>
             <div class="field">
                 <label for="email">E-mail</label>
-                <input type="email" id="email" name="email" required>
+                <input type="email" id="email" name="email" required >
             </div>
             <div class="field">
                 <label for="senha">Senha</label>
@@ -53,7 +64,28 @@
         </form>
     </div>
 
-    <!-- <script src="frontend/js/api-login.js"></script> -->
-    <!-- <script src="/frontend/js/Home.js"></script> -->
+    <script>
+    let successAlert = document.getElementById('success-alert');
+    let errorAlert = document.getElementById('error-alert');
+
+    if (successAlert.textContent.trim() !== '') {
+        successAlert.classList.remove('hidden');
+    } else {
+        successAlert.classList.add('hidden');
+    }
+
+    if (errorAlert.textContent.trim() !== '') {
+        errorAlert.classList.remove('hidden');
+        setTimeout(() => {
+            errorAlert.classList.add('hidden');
+        }, 4500);
+    } else {
+        errorAlert.classList.add('hidden');
+    }
+
+    setTimeout(() => {
+        successAlert.classList.add('hidden');
+    }, 4500);
+    </script>
   </body>
 </html>
