@@ -5,8 +5,6 @@ const bcrypt = require('bcrypt');
 const { Pool } = require("pg");
 const env = require('dotenv').config();
 
-// const url_bancoDados = "postgresql://Cljjg-2003@localhost:5432/activities";
-
 if (env.error) {
     console.error("Error loading .env file");
 }
@@ -111,7 +109,7 @@ app.post ('/login', async (req, res) => {
         const checkPassword = await bcrypt.compare(senha, user.rows[0].hash);
 
         if (!checkPassword) {
-            req.flash('error_msg', 'Senha incorreta.');
+            req.flash('error_msg', 'Senha incorreta. Por favor, tente novamente.');
             return res.redirect('/login');
         }
 
@@ -119,7 +117,7 @@ app.post ('/login', async (req, res) => {
         req.session.nome = user.rows[0].nome;
 
         req.flash('success_msg', 'Login efetuado com sucesso!');
-        return res.redirect('/home');
+        return res.redirect('/home');   
     } catch (e) {
         console.log(e);
         req.flash('error_msg', 'Erro ao fazer login. Por favor, tente novamente.');
@@ -127,8 +125,17 @@ app.post ('/login', async (req, res) => {
     }
 });
 
-app.get('/home', async (req, res) => {
-    res.render('home.html', { nome: req.session.nome});
+const verificaAutenticacao = (req, res, next) => {
+    if (req.session.nome) {
+        return next();
+    } else {
+        req.flash('error_msg', 'Por favor, faça login para acessar esta página.');
+        res.redirect('/login');
+    }
+}
+
+app.get('/home', verificaAutenticacao, async (req, res) => {
+    res.render('home.ejs', { nome: req.session.nome});
 });
 
 app.post('/deslogar', (req, res) => {
@@ -139,6 +146,23 @@ app.post('/deslogar', (req, res) => {
         res.redirect('/login');
     });
 });
+
+app.post('/adicionarNota', async (req, res) => {
+    const { titulo, conteudo } = req.body;
+    const novaNota = new Nota({ titulo, conteudo });
+    
+    try {
+        const connection = await conexao.connect();
+        const insert = "INSERT INTO notepad.notas (titulo, conteudo) VALUES ($1, $2)";
+        await connection.query(insert, [titulo, conteudo]);
+        connection.release();
+
+        res.status(200).json({ titulo, conteudo });
+    } catch (err) {
+        console.log(err);
+        res.status(500).json({ message: err.message });
+    }
+  });
 
 app.listen(3000,function (){
     console.log("Rodando na porta 3000")
