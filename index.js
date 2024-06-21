@@ -115,6 +115,9 @@ app.post ('/login', async (req, res) => {
             return res.redirect('/login');
         }
 
+        // Armazenar o nome do usuário na sessão
+        req.session.nome = user.rows[0].nome;
+
         req.flash('success_msg', 'Login efetuado com sucesso!');
         return res.redirect('/home');
     } catch (e) {
@@ -125,7 +128,16 @@ app.post ('/login', async (req, res) => {
 });
 
 app.get('/home', async (req, res) => {
-    res.render('home.html');
+    res.render('home.html', { nome: req.session.nome});
+});
+
+app.post('/deslogar', (req, res) => {
+    req.session.destroy((err) => {
+        if(err) {
+            return console.log(err);
+        }
+        res.redirect('/login');
+    });
 });
 
 app.listen(3000,function (){
