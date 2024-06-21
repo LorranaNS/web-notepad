@@ -96,6 +96,38 @@ app.get('/login', async (req, res) => {
     res.render('login.ejs');
 });
 
+app.post ('/login', async (req, res) => {
+    const { email, senha } = req.body;
+    try {
+        const connection = await conexao.connect();
+        const checkEmail = "SELECT * FROM notepad.users WHERE email = $1";
+        const user = await connection.query(checkEmail, [email]);
+
+        if (user.rows.length == 0) {
+            req.flash('error_msg', 'E-mail não cadastrado.');
+            return res.redirect('/login');
+        }
+
+        const checkPassword = await bcrypt.compare(senha, user.rows[0].hash);
+
+        if (!checkPassword) {
+            req.flash('error_msg', 'Senha incorreta.');
+            return res.redirect('/login');
+        }
+
+        req.flash('success_msg', 'Login efetuado com sucesso!');
+        return res.redirect('/home');
+    } catch (e) {
+        console.log(e);
+        req.flash('error_msg', 'Erro ao fazer login. Por favor, tente novamente.');
+        res.redirect('/login');
+    }
+});
+
+app.get('/home', async (req, res) => {
+    res.render('home.html');
+});
+
 app.listen(3000,function (){
     console.log("Rodando na porta 3000")
 })

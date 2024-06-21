@@ -41,8 +41,12 @@
         <div class="alert alert-success hidden" id= "success-alert"><%= success_msg %></div>
     <% } %>
 
+    <% if (error_msg) { %>
+        <div class="alert alert-danger hidden" id="error-alert"><%= error_msg %></div>
+    <% } %>
+
     <div class="container">
-        <form id="form_login">
+        <form action="/login" method="POST" id="form_login">
             <div class="titulo_form">
                 <h1>ENTRE NA SUA CONTA</h1>
             </div>
@@ -62,12 +66,23 @@
 
     <script>
     let successAlert = document.getElementById('success-alert');
+    let errorAlert = document.getElementById('error-alert');
 
     if (successAlert.textContent.trim() !== '') {
         successAlert.classList.remove('hidden');
     } else {
         successAlert.classList.add('hidden');
     }
+
+    if (errorAlert.textContent.trim() !== '') {
+        errorAlert.classList.remove('hidden');
+        setTimeout(() => {
+            errorAlert.classList.add('hidden');
+        }, 4500);
+    } else {
+        errorAlert.classList.add('hidden');
+    }
+
     setTimeout(() => {
         successAlert.classList.add('hidden');
     }, 4500);
