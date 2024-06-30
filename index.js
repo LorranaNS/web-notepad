@@ -128,7 +128,7 @@ app.post ('/login', async (req, res) => {
 });
 
 app.get('/home', async (req, res) => {
-    res.render('home.html', { nome: req.session.nome});
+    res.render('home.ejs', { nome: req.session.nome});
 });
 
 app.post('/deslogar', (req, res) => {

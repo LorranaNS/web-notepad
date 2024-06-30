@@ -207,3 +207,22 @@ input {
   display: flex;
   justify-content: center;
 }
+
+.hidden {
+  display: none;
+}
+
+.alert {
+  align-items: center;
+  text-align: center;
+  padding: 15px;
+  margin: 50px auto 0px auto;
+  font-size: 20px;
+  width: 80%;
+  letter-spacing: 3px;
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: 7%;
+  z-index: 1000;
+}

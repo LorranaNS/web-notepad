@@ -21,7 +21,6 @@
       href="assets/logo.svg"
     />
   </head>
-
   <body class="bg-custom">
     <header>
         <div id="logo">
@@ -48,7 +47,7 @@
             </div>
             <div class="field">
                 <label for="nome">Nome</label>
-                <input type="text" id="nome" name="nome">
+                <input type="text" id="nome" name="nome" required>
             </div>
             <div class="field">
                 <label for="email">E-mail</label>
@@ -56,32 +55,30 @@
             </div>
             <div class="field">
                 <label for="senha">Senha</label>
-                <input type="password" id="senha" name="senha">
+                <input type="password" id="senha" name="senha" required>
             </div>
             <div class="field">
                 <label for="confirmar_senha">Confirme a senha</label>
-                <input type="password" id="confirmar_senha" name="confirmar_senha">
+                <input type="password" id="confirmar_senha" name="confirmar_senha" required>
             </div>
             <div class="botao_form_div">
                 <button type="submit">CADASTRAR</button>
             </div>
         </form>
     </div>
-  <script> 
-    let errorAlert = document.getElementById('error-alert');
-
-    document.addEventListener('DOMContentLoaded', (event) => {
-        if (errorAlert.textContent.trim() !== '') {
-            errorAlert.classList.remove('hidden');
-        } else {
+    <script> 
+        let errorAlert = document.getElementById('error-alert');
+        document.addEventListener('DOMContentLoaded', (event) => {
+            if (errorAlert.textContent.trim() !== '') {
+                errorAlert.classList.remove('hidden');
+            } else {
+                errorAlert.classList.add('hidden');
+            }
+        });
+        setTimeout(() => {
             errorAlert.classList.add('hidden');
-        }
-    });
-
-    setTimeout(() => {
-        errorAlert.classList.add('hidden');
-    }, 4500);
-
+        }, 4500);
+    </script>
   </script>
   </body>
 </html>
