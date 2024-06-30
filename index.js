@@ -92,6 +92,20 @@ app.post("/cadastrar", async (req, res) => {
     }
 })
 
+function ensureAuthenticated(req, res, next) {
+    if (req.session.user_id) {
+        return next();
+    } else {
+        req.flash('error_msg', 'Por favor, faça login para acessar essa página.');
+        res.redirect('/login');
+    }
+}
+
+app.get('/home',  ensureAuthenticated, async (req, res) => {
+    res.render('home.ejs', { nome: req.session.nome});
+});
+
+
 app.get('/login', async (req, res) => {
     res.render('login.ejs');
 });
@@ -117,6 +131,7 @@ app.post ('/login', async (req, res) => {
 
         // Armazenar o nome do usuário na sessão
         req.session.nome = user.rows[0].nome;
+        req.session.user_id = user.rows[0].id;
 
         req.flash('success_msg', 'Login efetuado com sucesso!');
         return res.redirect('/home');
@@ -127,10 +142,6 @@ app.post ('/login', async (req, res) => {
     }
 });
 
-app.get('/home', async (req, res) => {
-    res.render('home.ejs', { nome: req.session.nome});
-});
-
 app.post('/deslogar', (req, res) => {
     req.session.destroy((err) => {
         if(err) {
@@ -138,6 +149,23 @@ app.post('/deslogar', (req, res) => {
         }
         res.redirect('/login');
     });
+});
+
+app.post('/criarNota', ensureAuthenticated, async (req, res) => {
+    const { title, content } = req.body;
+    const user_id = req.session.user_id;
+
+    try {
+        const connection = await conexao.connect();
+        const insertNote = "INSERT INTO notepad.notes (user_id, title, content) VALUES ($1, $2, $3)";
+        await connection.query(insertNote, [user_id, title, content]);
+        connection.release();
+
+        res.json({ success: true });
+    } catch (e) {
+        console.log(e);
+        res.json({ success: false, error: 'Erro ao criar a nota. Por favor, tente novamente.' });
+    }
 });
 
 app.listen(3000,function (){
