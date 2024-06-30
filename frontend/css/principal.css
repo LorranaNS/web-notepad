@@ -1,0 +1,151 @@
+body {
+	font-family: "Montserrat", sans-serif;
+    background-color: #111111;
+    color: #E3E3E3;
+}
+
+header {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	font-weight: 600;
+	padding: 20px;
+    color: #FFC736;
+}
+
+#logo {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	gap: 14px;
+	font-weight: bold;
+}
+
+.menu_logado {
+    display: flex;
+    gap: 1rem;
+}
+
+#menu a, form button {
+    background-color: #FFC736;
+    color: #111111;
+    font-weight: bolder;
+    border-radius: 8px;
+    padding: 10px 15px;
+}
+
+nav a {
+    color: #FFC736;
+    text-decoration: none;
+    padding: 10px;
+    font-weight: 600;
+}
+
+.container {
+    margin: 5% 5%;
+}
+
+.opcoes {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 3rem;
+    align-items: center;
+}
+
+#input_busca, form input {
+    background-color: #181818;
+    border: 1px solid #FFC736;
+    color: #E3E3E3;
+    padding: 10px 10px;
+    border-radius: 8px;
+}
+
+button {
+    background-color: #FFC736;
+    border: none;
+    border-radius: 4px;
+    height: -webkit-fill-available;
+	font-family: "Montserrat", sans-serif;
+    padding: 10px 12px;
+    cursor: pointer;
+}
+
+.icone_botao {
+    height: 1.3rem;
+}
+
+
+.div-notas {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 3rem;
+}
+
+.nota {
+    background-color: #181818;
+    border: 1px solid #FFC736;
+    color: #E3E3E3;
+    padding: 25px;
+    border-radius: 8px;
+}
+
+.topo_nota {
+    display: flex;
+    align-items: flex-start;
+    gap: 2rem;
+}
+
+.titulo-nota {
+    font-weight: 600;
+    font-size: 1.2rem;
+    margin-bottom: 20px;
+    margin-top: 0;
+}
+
+.icone_opcoes {
+    cursor: pointer;
+}
+
+#menu-toggle {
+    display: none;
+}
+
+form {
+    margin: 0 30%;
+}
+
+.titulo_form {
+    display: flex;
+    justify-content: center;
+    color: #FFC736;
+}
+
+label {
+    color: #FFC736;
+    font-weight: 600;
+}
+
+#label_busca {
+    font-size: 1.1rem;
+    margin-right: 0.3rem;
+}
+
+form button {
+    font-weight: 900;
+}
+
+.field {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.botao_form_div {
+    display: flex;
+    justify-content: center;
+}
+
+#btn_sair {
+    display: flex;
+}
