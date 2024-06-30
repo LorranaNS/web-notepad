@@ -152,15 +152,18 @@ app.post('/deslogar', (req, res) => {
 });
 
 app.post('/criarNota', ensureAuthenticated, async (req, res) => {
-    const { title, content } = req.body;
-    const user_id = req.session.user_id;
+    var { title, content } = req.body;
+    var user_id = req.session.user_id;
+
+    if (!title || !content) {
+        return res.json({ success: false, error: 'Título e conteúdo são obrigatórios.' });
+    }
 
     try {
         const connection = await conexao.connect();
         const insertNote = "INSERT INTO notepad.notes (user_id, title, content) VALUES ($1, $2, $3)";
         await connection.query(insertNote, [user_id, title, content]);
         connection.release();
-
         res.json({ success: true });
     } catch (e) {
         console.log(e);

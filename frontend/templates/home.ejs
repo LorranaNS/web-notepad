@@ -86,81 +86,84 @@
     </div>
 
     <script>
- // Obtenha os modais
- var modalCriar = document.getElementById("modal-criar-nota");
-    var modalEditar = document.getElementById("modal-editar-nota");
+        // Obtenha os modais
+        var modalCriar = document.getElementById("modal-criar-nota");
+        var modalEditar = document.getElementById("modal-editar-nota");
+        
+        // Obtenha os botões que abrem os modais
+        var btnNovaNota = document.getElementById("btn_nova_nota");
+        var btnEditarNota = document.querySelectorAll(".icone_opcoes");
 
-    // Obtenha os botões que abrem os modais
-    var btnNovaNota = document.getElementById("btn_nova_nota");
-    var btnEditarNota = document.querySelectorAll(".icone_opcoes");
+        // Obtenha os elementos <span> que fecham os modais
+        var spanCriar = document.querySelector("#modal-criar-nota .close");
+        var spanEditar = document.querySelector("#modal-editar-nota .close");
 
-    // Obtenha os elementos <span> que fecham os modais
-    var spanCriar = document.querySelector("#modal-criar-nota .close");
-    var spanEditar = document.querySelector("#modal-editar-nota .close");
-
-    // Quando o usuário clicar no botão, abre o modal de criar nota
-    btnNovaNota.onclick = function() {
-        modalCriar.style.display = "block";
-    }
-
-    // Quando o usuário clicar em <span> (x), fecha o modal de criar nota
-    spanCriar.onclick = function() {
-        modalCriar.style.display = "none";
-    }
-
-    // Quando o usuário clicar em um dos ícones de opções, abre o modal de editar nota
-    btnEditarNota.forEach(function(btn) {
-        btn.onclick = function() {
-            modalEditar.style.display = "block";
+        // Quando o usuário clicar no botão, abre o modal de criar nota
+        btnNovaNota.onclick = function() {
+            modalCriar.style.display = "block";
         }
-    });
 
-    // Quando o usuário clicar em <span> (x), fecha o modal de editar nota
-    spanEditar.onclick = function() {
-        modalEditar.style.display = "none";
-    }
-
-    // Quando o usuário clicar fora do modal, fecha o modal
-    window.onclick = function(event) {
-        if (event.target == modalCriar) {
+        // Quando o usuário clicar em <span> (x), fecha o modal de criar nota
+        spanCriar.onclick = function() {
             modalCriar.style.display = "none";
         }
-        if (event.target == modalEditar) {
+
+        // Quando o usuário clicar em um dos ícones de opções, abre o modal de editar nota
+        btnEditarNota.forEach(function(btn) {
+            btn.onclick = function() {
+                modalEditar.style.display = "block";
+            }
+        });
+
+        // Quando o usuário clicar em <span> (x), fecha o modal de editar nota
+        spanEditar.onclick = function() {
             modalEditar.style.display = "none";
         }
-    }
 
-    // Função para criar uma nova nota
-    document.getElementById("btn-criar-nota").onclick = function() {
-    var titulo = document.getElementById("input-titulo").value;
-    var conteudo = document.getElementById("texto-nota").value;
+        // Quando o usuário clicar fora do modal, fecha o modal
+        window.onclick = function(event) {
+            if (event.target == modalCriar) {
+                modalCriar.style.display = "none";
+            }
+            if (event.target == modalEditar) {
+                modalEditar.style.display = "none";
+            }
+        }
 
-    console.log("Título:", titulo);
-    console.log("Conteúdo:", conteudo);
+        // Função para criar uma nova nota
+        document.getElementById("btn-criar-nota").onclick = function() {
+        let title = document.getElementById("input-titulo").value;
+        let content = document.getElementById("texto-nota").value;
 
-    fetch('/criarNota', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-            title: titulo,
-            content: conteudo
-        })
-    }).then(response => response.json())
-      .then(data => {
-          if(data.success) {
-              // Nota criada com sucesso
-              alert("Nota criada com sucesso!");
-              // Fechar o modal após criar a nota
-              document.getElementById('modal-criar-nota').style.display = "none";
-              // Aqui você pode adicionar código para atualizar a lista de notas sem recarregar a página
-          } else {
-              // Exibir mensagem de erro
-              alert("Erro ao criar a nota: " + data.error);
-          }
-      });
-}
+        console.log("Título: ", title);
+        console.log("Conteúdo: ", content);
+
+        fetch('/criarNota', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                title: title,
+                content: content
+            })
+        }).then(response => response.json())
+        .then(data => {
+            if(data.success) {
+                // Nota criada com sucesso
+                alert("Nota criada com sucesso!");
+                // Fechar o modal após criar a nota
+                document.getElementById('modal-criar-nota').style.display = "none";
+                // Limpar campos após criar a nota (opcional)
+                document.getElementById("input-titulo").value = "";
+                document.getElementById("texto-nota").value = "";
+                // Aqui você pode adicionar código para atualizar a lista de notas sem recarregar a página
+            } else {
+                // Exibir mensagem de erro
+                alert("Erro ao criar a nota: " + data.error);
+            }
+        });
+        }
     </script>
   </body>
 </html>
