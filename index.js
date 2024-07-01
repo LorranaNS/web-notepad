@@ -186,6 +186,35 @@ app.get('/pegarNotas', ensureAuthenticated, async (req, res) => {
     }
 });
 
+
+app.post('/atualizarNota', ensureAuthenticated, async (req, res) => {
+    const { id, title, content } = req.body;
+    try {
+        const connection = await conexao.connect();
+        const updateNote = "UPDATE notepad.notes SET title = $1, content = $2 WHERE id = $3";
+        await connection.query(updateNote, [title, content, id]);
+        connection.release();
+        res.json({ success: true });
+    } catch (e) {
+        console.log(e);
+        res.json({ success: false, error: 'Erro ao atualizar a nota. Por favor, tente novamente.' });
+    }
+});
+
+app.post('/deletarNota', ensureAuthenticated, async (req, res) => {
+    const { id } = req.body;
+    try {
+        const connection = await conexao.connect();
+        const deleteNote = "DELETE FROM notepad.notes WHERE id = $1";
+        await connection.query(deleteNote, [id]);
+        connection.release();
+        res.json({ success: true });
+    } catch (e) {
+        console.log(e);
+        res.json({ success: false, error: 'Erro ao deletar a nota. Por favor, tente novamente.' });
+    }
+});
+
 app.listen(3000,function (){
     console.log("Rodando na porta 3000")
 })

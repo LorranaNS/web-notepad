@@ -1,27 +1,23 @@
 <!DOCTYPE html>
 <html lang="pt-BR" data-bs-theme="dark">
-  <head>
+
+<head>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
-    
+
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Notepad</title>
 
-    <link rel="stylesheet" href="css/principal.css" />
-    <link
-      rel="icon"
-      type="image/svg+xml"
-      sizes="16x16"
-      href="assets/logo.svg"
-    />
-  </head>
+    <link rel="stylesheet" href="/css/principal.css" />
+    <link rel="icon" type="image/svg+xml" sizes="16x16" href="/assets/logo.svg" />
+</head>
 
-  <body class="bg-custom">
+<body class="bg-custom">
     <header>
         <div id="logo">
-            <img src="assets/logo.svg" alt="logo" />
+            <img src="/assets/logo.svg" alt="logo" />
             <h1>NOTEPAD</h1>
         </div>
         <button id="menu-toggle" aria-label="Menu" aria-controls="menu">
@@ -30,12 +26,12 @@
             <span></span>
         </button>
         <nav id="menu" class="menu_logado">
-            <p id="nome_usuario"> <%= nome %> </p>
-                <form action="/deslogar" method="POST" id="logout-form">
-                    <button id="btn_sair">
-                        <img src="assets/icon_sair.svg" alt="deslogar" class="icone_botao"/>
-                    </button>
-                </form>
+            <p id="nome_usuario"><%= nome %></p>
+            <form action="/deslogar" method="POST" id="logout-form">
+                <button id="btn_sair">
+                    <img src="/assets/icon_sair.svg" alt="deslogar" class="icone_botao" />
+                </button>
+            </form>
         </nav>
     </header>
 
@@ -47,162 +43,244 @@
             </div>
             <div>
                 <button id="btn_filtrar">
-                    <img src="assets/icon_filtro.svg" alt="Filtrar notas" class="icone_botao" />
+                    <img src="/assets/icon_filtro.svg" alt="Filtrar notas" class="icone_botao" />
                 </button>
                 <button id="btn_nova_nota">
-                    <img src="assets/icon_mais.svg" alt="Adicionar nova nota" class="icone_botao" />
+                    <img src="/assets/icon_mais.svg" alt="Adicionar nova nota" class="icone_botao" />
                 </button>
             </div>
         </div>
-        <div class="div-notas">
-            <div class="nota">
-                <div class="topo_nota">
-                    <p class="titulo-nota"></p>
-                    <img src="assets/icon_pontos.svg" alt="Ícone de Pontos" class="icone_opcoes">
-                </div>
-                <div class="conteudo-nota">
-                </div>
-            </div>
-        <div>
-    </div>
+        <div class="div-notas"></div>
 
-    <div id="modal-criar-nota" class="modal">
-        <div class="modal-content" id="content-criar">
-            <span class="close">&times;</span>
-            <div class="corpo-criar">
-                <input name="titulo" type="text" id="input-titulo" placeholder="Título da nota">
-                <textarea name="nota" id="texto-nota" placeholder="Texto da nota"></textarea>
-                <div class="div-btn">
-                    <button id="btn-criar-nota">CRIAR</button>
+        <div id="modal-criar-nota" class="modal">
+            <div class="modal-content" id="content-criar">
+                <span class="close">&times;</span>
+                <div class="corpo-criar">
+                    <input name="titulo" type="text" id="input-titulo" placeholder="Título da nota">
+                    <textarea name="nota" id="texto-nota" placeholder="Texto da nota"></textarea>
+                    <div class="div-btn">
+                        <button id="btn-criar-nota">CRIAR</button>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
 
-    <div id="modal-editar-nota" class="modal">
-        <div class="modal-content" id="content-editar">
-            <span class="close">&times;</span>
-            <div class="corpo-editar">
-                <input type="text" id="input-titulo-editar">
-                <textarea name="nota" id="texto-nota-editar"></textarea>
-            <div class="div-btn">
-                <button id="btn-salvar-nota">SALVAR</button>
+        <div id="modal-editar-nota" class="modal">
+            <div class="modal-content" id="content-editar">
+                <span class="close">&times;</span>
+                <div class="corpo-editar">
+                    <input type="text" id="input-titulo-editar">
+                    <textarea name="nota" id="texto-nota-editar"></textarea>
+                    <input type="hidden" id="input-id-editar">
+                    <div class="div-btn">
+                        <button id="btn-salvar-nota">SALVAR</button>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
 
-    <script>
-        var modalCriar = document.getElementById("modal-criar-nota");
-        var modalEditar = document.getElementById("modal-editar-nota");
-        
-        var btnNovaNota = document.getElementById("btn_nova_nota");
-        var btnEditarNota = document.querySelectorAll(".icone_opcoes");
+        <script>
+            var modalCriar = document.getElementById("modal-criar-nota");
+            var modalEditar = document.getElementById("modal-editar-nota");
 
-        var spanCriar = document.querySelector("#modal-criar-nota .close");
-        var spanEditar = document.querySelector("#modal-editar-nota .close");
+            var btnNovaNota = document.getElementById("btn_nova_nota");
 
-        btnNovaNota.onclick = function() {
-            modalCriar.style.display = "block";
-        }
+            var spanCriar = document.querySelector("#modal-criar-nota .close");
+            var spanEditar = document.querySelector("#modal-editar-nota .close");
 
-        spanCriar.onclick = function() {
-            modalCriar.style.display = "none";
-        }
-
-        btnEditarNota.forEach(function(btn) {
-            btn.onclick = function() {
-                modalEditar.style.display = "block";
+            btnNovaNota.onclick = function () {
+                modalCriar.style.display = "block";
             }
-        });
 
-        spanEditar.onclick = function() {
-            modalEditar.style.display = "none";
-        }
-
-        window.onclick = function(event) {
-            if (event.target == modalCriar) {
+            spanCriar.onclick = function () {
                 modalCriar.style.display = "none";
             }
-            if (event.target == modalEditar) {
+
+            spanEditar.onclick = function () {
                 modalEditar.style.display = "none";
             }
-        }
 
-        document.getElementById("btn-criar-nota").onclick = function() {
-
-            let titulo = document.getElementById("input-titulo").value;
-            let conteudo = document.getElementById("texto-nota").value;
-
-            fetch('/criarNota', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    title: titulo,
-                    content: conteudo
-                })
-            }).then(response => response.json())
-            .then(data => {
-                if(data.success) {
-                    alert("Nota criada com sucesso!");
-                   
-                    document.getElementById('modal-criar-nota').style.display = "none";
-                 
-                    document.getElementById("input-titulo").value = "";
-                    document.getElementById("texto-nota").value = "";
-                    
-                    const novaNota = criarElementoNota (titulo, conteudo);
-                    document.querySelector(".div-notas").appendChild(novaNota);
-                } else {
-                    alert(data.error);
+            window.onclick = function (event) {
+                if (event.target == modalCriar) {
+                    modalCriar.style.display = "none";
                 }
+                if (event.target == modalEditar) {
+                    modalEditar.style.display = "none";
+                }
+            }
+
+            document.getElementById("btn-criar-nota").onclick = function () {
+                let titulo = document.getElementById("input-titulo").value;
+                let conteudo = document.getElementById("texto-nota").value;
+
+                fetch('/criarNota', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        title: titulo,
+                        content: conteudo
+                    })
+                }).then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            alert("Nota criada com sucesso!");
+
+                            document.getElementById('modal-criar-nota').style.display = "none";
+
+                            document.getElementById("input-titulo").value = "";
+                            document.getElementById("texto-nota").value = "";
+
+                            const novaNota = criarElementoNota(data.id, titulo, conteudo);
+                            document.querySelector(".div-notas").appendChild(novaNota);
+                        } else {
+                            alert(data.error);
+                        }
+                    });
+            }
+
+            function criarElementoNota(id, titulo, conteudo) {
+                const divNota = document.createElement("div");
+                divNota.className = "nota";
+                divNota.dataset.id = id;
+
+                const topoNota = document.createElement("div");
+                topoNota.className = "topo_nota";
+
+                const tituloNota = document.createElement("p");
+                tituloNota.className = "titulo-nota";
+                tituloNota.textContent = titulo;
+                tituloNota.onclick = function () {
+                    mostrarNotaCompleta(titulo, conteudo);
+                };
+
+                const iconeOpcoes = document.createElement("img");
+                iconeOpcoes.src = "/assets/icon_pontos.svg";
+                iconeOpcoes.alt = "Ícone de Pontos";
+                iconeOpcoes.className = "icone_opcoes";
+
+                const menuOpcoes = document.createElement("div");
+                menuOpcoes.className = "menu-opcoes";
+                menuOpcoes.style.display = "none";
+
+                const opcaoEditar = document.createElement("p");
+                opcaoEditar.textContent = "Editar";
+                opcaoEditar.className = "opcao-editar";
+                opcaoEditar.onclick = function () {
+                    document.getElementById("input-titulo-editar").value = titulo;
+                    document.getElementById("texto-nota-editar").value = conteudo;
+                    document.getElementById("input-id-editar").value = id;
+                    modalEditar.style.display = "block";
+                };
+
+                const opcaoExcluir = document.createElement("p");
+                opcaoExcluir.textContent = "Excluir";
+                opcaoExcluir.className = "opcao-excluir";
+                opcaoExcluir.onclick = function () {
+                    if (confirm("Tem certeza que deseja excluir essa nota?")) {
+                        fetch('/deletarNota', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json'
+                            },
+                            body: JSON.stringify({ id: id })
+                        }).then(response => response.json())
+                            .then(data => {
+                                if (data.success) {
+                                    alert("Nota excluída com sucesso!");
+                                    divNota.remove();
+                                } else {
+                                    alert(data.error);
+                                }
+                            });
+                    }
+                };
+
+                menuOpcoes.appendChild(opcaoEditar);
+                menuOpcoes.appendChild(opcaoExcluir);
+
+                iconeOpcoes.onclick = function () {
+                    menuOpcoes.style.display = menuOpcoes.style.display === "none" ? "block" : "none";
+                };
+
+                topoNota.appendChild(tituloNota);
+                topoNota.appendChild(iconeOpcoes);
+                topoNota.appendChild(menuOpcoes);
+
+                const conteudoNota = document.createElement("div");
+                conteudoNota.className = "conteudo-nota";
+                conteudoNota.textContent = conteudo;
+
+                divNota.appendChild(topoNota);
+                divNota.appendChild(conteudoNota);
+
+                return divNota;
+            }
+
+            function mostrarNotaCompleta(titulo, conteudo) {
+                const modalNotaCompleta = document.createElement("div");
+                modalNotaCompleta.className = "modal";
+                modalNotaCompleta.style.display = "block";
+
+                const modalContent = document.createElement("div");
+                modalContent.className = "modal-content";
+                modalContent.style.width = "80%";
+                modalContent.style.maxWidth = "800px";
+                modalContent.style.margin = "auto";
+                modalContent.style.padding = "20px";
+                modalContent.style.backgroundColor = "#fff";
+                modalContent.style.borderRadius = "8px";
+
+                const closeBtn = document.createElement("span");
+                closeBtn.className = "close";
+                closeBtn.textContent = "×";
+                closeBtn.style.float = "right";
+                closeBtn.style.cursor = "pointer";
+                closeBtn.onclick = function () {
+                    modalNotaCompleta.remove();
+                };
+
+                const tituloNotaCompleta = document.createElement("h2");
+                tituloNotaCompleta.textContent = titulo;
+
+                const conteudoNotaCompleta = document.createElement("p");
+                conteudoNotaCompleta.textContent = conteudo;
+
+                modalContent.appendChild(closeBtn);
+                modalContent.appendChild(tituloNotaCompleta);
+                modalContent.appendChild(conteudoNotaCompleta);
+
+                modalNotaCompleta.appendChild(modalContent);
+
+                document.body.appendChild(modalNotaCompleta);
+            }
+
+            document.addEventListener('DOMContentLoaded', function () {
+                fetch('/pegarNotas')
+                    .then(response => response.json())
+                    .then(notas => {
+                        notas.forEach(nota => {
+                            const elementoNota = criarElementoNota(nota.id, nota.title, nota.content);
+                            document.querySelector(".div-notas").appendChild(elementoNota);
+                        });
+                    })
+                    .catch(error => console.error('Erro ao carregar notas:', error));
             });
-        }
 
+            document.addEventListener('click', function (event) {
+                const menusOpcoes = document.querySelectorAll('.menu-opcoes');
 
+                menusOpcoes.forEach(function (menuOpcoes) {
+                    const iconeOpcoes = menuOpcoes.previousElementSibling;
 
-        function criarElementoNota(titulo, conteudo) {
-            const divNota = document.createElement("div");
-            divNota.className = "nota";
-
-            const topoNota = document.createElement("div");
-            topoNota.className = "topo_nota";
-
-            const tituloNota = document.createElement("p");
-            tituloNota.className = "titulo-nota";
-            tituloNota.textContent = titulo;
-
-            const iconeOpcoes = document.createElement("img");
-            iconeOpcoes.src = "assets/icon_pontos.svg";
-            iconeOpcoes.alt = "Ícone de Pontos";
-            iconeOpcoes.className = "icone_opcoes";
-
-            topoNota.appendChild(tituloNota);
-            topoNota.appendChild(iconeOpcoes);
-
-            const conteudoNota = document.createElement("div");
-            conteudoNota.className = "conteudo-nota";
-            conteudoNota.textContent = conteudo;
-
-            divNota.appendChild(topoNota);
-            divNota.appendChild(conteudoNota);
-
-            return divNota;
-        }
-
-        document.addEventListener('DOMContentLoaded', function() {
-            fetch('/pegarNotas')
-            .then(response => response.json())
-            .then(notas => {
-                notas.forEach(nota => {
-                    const elementoNota = criarElementoNota(nota.title, nota.content);
-                    document.querySelector(".div-notas").appendChild(elementoNota);
+                    if (!menuOpcoes.contains(event.target) && event.target !== iconeOpcoes) {
+                        menuOpcoes.style.display = 'none';
+                    }
                 });
-            })
-            .catch(error => console.error('Erro ao carregar notas:', error));
-        });
-    </script>
-  </body>
+            });
+        </script>
+    </div>
+</body>
+
 </html>
