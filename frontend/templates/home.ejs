@@ -4,7 +4,8 @@
 <head>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap"
+        rel="stylesheet">
 
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -26,7 +27,9 @@
             <span></span>
         </button>
         <nav id="menu" class="menu_logado">
-            <p id="nome_usuario"><%= nome %></p>
+            <p id="nome_usuario">
+                <%= nome %>
+            </p>
             <form action="/deslogar" method="POST" id="logout-form">
                 <button id="btn_sair">
                     <img src="/assets/icon_sair.svg" alt="deslogar" class="icone_botao" />
@@ -215,7 +218,46 @@
                 divNota.appendChild(topoNota);
                 divNota.appendChild(conteudoNota);
 
+                conteudoNota.onclick = function () {
+                    mostrarNotaCompleta(titulo, conteudo);  
+                };
+
                 return divNota;
+            }
+
+            document.getElementById("btn-salvar-nota").onclick = function () {
+                let titulo = document.getElementById("input-titulo-editar").value;
+                let conteudo = document.getElementById("texto-nota-editar").value;
+                let id = document.getElementById("input-id-editar").value;
+
+                fetch('/atualizarNota', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        id: id,
+                        title: titulo,
+                        content: conteudo
+                    })
+                }).then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            alert("Nota atualizada com sucesso!");
+
+                            const notaExistente = document.querySelector(`.nota[data-id="${id}"]`);
+                            if (notaExistente) {
+                                notaExistente.querySelector(".titulo-nota").textContent = titulo;
+                                notaExistente.querySelector(".conteudo-nota").textContent = conteudo;
+                            }
+
+                            document.getElementById('modal-editar-nota').style.display = "none";
+
+                            // Atualizar a exibição da nota na página, se necessário
+                        } else {
+                            alert(data.error);
+                        }
+                    });
             }
 
             function mostrarNotaCompleta(titulo, conteudo) {
@@ -225,11 +267,20 @@
 
                 const modalContent = document.createElement("div");
                 modalContent.className = "modal-content";
+                modalContent.style.position = "fixed";
+                modalContent.style.top = "50%";
+                modalContent.style.left = "50%";
+                modalContent.style.transform = "translate(-50%, -50%)";
                 modalContent.style.width = "80%";
                 modalContent.style.maxWidth = "800px";
                 modalContent.style.margin = "auto";
                 modalContent.style.padding = "20px";
-                modalContent.style.backgroundColor = "#fff";
+                modalContent.style.backgroundColor = "#000";
+                modalContent.style.color = "#fff";
+                modalContent.style.overflowY = "auto";
+                modalContent.style.maxHeight = "80vh";
+                modalContent.style.minHeight = "50vh";
+                modalContent.style.border = "2px solid #8B6F27";
                 modalContent.style.borderRadius = "8px";
 
                 const closeBtn = document.createElement("span");
