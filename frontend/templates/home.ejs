@@ -282,6 +282,17 @@
                 modalContent.style.minHeight = "50vh";
                 modalContent.style.border = "2px solid #8B6F27";
                 modalContent.style.borderRadius = "8px";
+                modalContent.style.textAlign = "justify";
+                modalContent.style.paddingRight = "30px";
+                modalContent.style.lineHeight = "1.5";
+                modalContent.style.fontFamily = "Montserrat, sans-serif";
+
+                const modalTitle = document.createElement("h2");
+                modalTitle.style.textAlign = "center";
+                modalTitle.style.marginTop = "0";
+                modalTitle.textContent = titulo; 
+
+                modalContent.appendChild(modalTitle);
 
                 const closeBtn = document.createElement("span");
                 closeBtn.className = "close";
@@ -292,14 +303,11 @@
                     modalNotaCompleta.remove();
                 };
 
-                const tituloNotaCompleta = document.createElement("h2");
-                tituloNotaCompleta.textContent = titulo;
-
                 const conteudoNotaCompleta = document.createElement("p");
                 conteudoNotaCompleta.textContent = conteudo;
 
                 modalContent.appendChild(closeBtn);
-                modalContent.appendChild(tituloNotaCompleta);
+                modalContent.appendChild(modalTitle);
                 modalContent.appendChild(conteudoNotaCompleta);
 
                 modalNotaCompleta.appendChild(modalContent);
