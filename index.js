@@ -7,6 +7,8 @@ const env = require('dotenv').config();
 
 app.use (express.json());
 
+
+const url_bancoDados = "postgresql://notepad_owner:msWqpU90OcLV@ep-wild-base-a53xmivn.us-east-2.aws.neon.tech/notepad?sslmode=require";
 // const url_bancoDados = "postgresql://Cljjg-2003@localhost:5432/activities";
 
 if (env.error) {
@@ -14,12 +16,12 @@ if (env.error) {
 }
 
 const conexao = new Pool({
-    // connectionString: url_bancoDados,
-    host: 'localhost',
-    port: 5432,
-    database: 'projetos',
-    user: process.env.USER_BD,
-    password: process.env.PASSWORD_BD
+    connectionString: url_bancoDados,
+    // host: 'localhost',
+    // port: 5432,
+    // database: 'projetos',
+    // user: process.env.USER_BD,
+    // password: process.env.PASSWORD_BD
 })
 
 app.set('views', (path.join(__dirname, 'frontend/templates')));
@@ -69,7 +71,7 @@ app.post("/cadastrar", async (req, res) => {
 
         // Verificar se o e-mail já existe
         const connection = await conexao.connect();
-        const checkEmail = "SELECT * FROM notepad.users WHERE email = $1";
+        const checkEmail = "SELECT * FROM public.users WHERE email = $1";
         const user = await connection.query(checkEmail, [email]);
 
         if (user.rows.length > 0) {
@@ -81,7 +83,7 @@ app.post("/cadastrar", async (req, res) => {
         const saltRounds = 10;
         const hash = await bcrypt.hash(senha, saltRounds);
 
-        const insert = "INSERT INTO notepad.users (nome, email, hash) VALUES ($1, $2, $3)";
+        const insert = "INSERT INTO public.users (nome, email, hash) VALUES ($1, $2, $3)";
         await connection.query(insert, [nome, email, hash])
         connection.release();
 
@@ -116,7 +118,7 @@ app.post ('/login', async (req, res) => {
     const { email, senha } = req.body;
     try {
         const connection = await conexao.connect();
-        const checkEmail = "SELECT * FROM notepad.users WHERE email = $1";
+        const checkEmail = "SELECT * FROM public.users WHERE email = $1";
         const user = await connection.query(checkEmail, [email]);
 
         if (user.rows.length == 0) {
@@ -160,7 +162,7 @@ app.post('/criarNota', ensureAuthenticated, async (req, res) => {
 
     try {
         const connection = await conexao.connect();
-        const insertNote = "INSERT INTO notepad.notes (user_id, title, content) VALUES ($1, $2, $3)";
+        const insertNote = "INSERT INTO public.notes (user_id, title, content) VALUES ($1, $2, $3)";
         await connection.query(insertNote, [user_id, title, content]);
         connection.release();
         res.json({ success: true });
@@ -174,7 +176,7 @@ app.get('/pegarNotas', ensureAuthenticated, async (req, res) => {
     const user_id = req.session.user_id;
     try {
         const connection = await conexao.connect();
-        const selectNotes = "SELECT * FROM notepad.notes WHERE user_id = $1";
+        const selectNotes = "SELECT * FROM public.notes WHERE user_id = $1";
         const result = await connection.query(selectNotes, [user_id]);
         connection.release();
 
@@ -191,7 +193,7 @@ app.post('/atualizarNota', ensureAuthenticated, async (req, res) => {
     const { id, title, content } = req.body;
     try {
         const connection = await conexao.connect();
-        const updateNote = "UPDATE notepad.notes SET title = $1, content = $2 WHERE id = $3";
+        const updateNote = "UPDATE public.notes SET title = $1, content = $2 WHERE id = $3";
         await connection.query(updateNote, [title, content, id]);
         connection.release();
         res.json({ success: true });
@@ -205,7 +207,7 @@ app.post('/deletarNota', ensureAuthenticated, async (req, res) => {
     const { id } = req.body;
     try {
         const connection = await conexao.connect();
-        const deleteNote = "DELETE FROM notepad.notes WHERE id = $1";
+        const deleteNote = "DELETE FROM public.notes WHERE id = $1";
         await connection.query(deleteNote, [id]);
         connection.release();
         res.json({ success: true });
