@@ -2,6 +2,8 @@
 
 ## TABLES 
 
+SET search_path TO public;
+
 CREATE TABLE users (
 	id SERIAL PRIMARY KEY,	
 	nome VARCHAR(40) NOT NULL,
