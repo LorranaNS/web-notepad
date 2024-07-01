@@ -5,6 +5,8 @@ const bcrypt = require('bcrypt');
 const { Pool } = require("pg");
 const env = require('dotenv').config();
 
+app.use (express.json());
+
 // const url_bancoDados = "postgresql://Cljjg-2003@localhost:5432/activities";
 
 if (env.error) {
@@ -152,12 +154,9 @@ app.post('/deslogar', (req, res) => {
 });
 
 app.post('/criarNota', ensureAuthenticated, async (req, res) => {
+    console.log(req.body);
     var { title, content } = req.body;
     var user_id = req.session.user_id;
-
-    if (!title || !content) {
-        return res.json({ success: false, error: 'Título e conteúdo são obrigatórios.' });
-    }
 
     try {
         const connection = await conexao.connect();
@@ -168,6 +167,22 @@ app.post('/criarNota', ensureAuthenticated, async (req, res) => {
     } catch (e) {
         console.log(e);
         res.json({ success: false, error: 'Erro ao criar a nota. Por favor, tente novamente.' });
+    }
+});
+
+app.get('/pegarNotas', ensureAuthenticated, async (req, res) => {
+    const user_id = req.session.user_id;
+    try {
+        const connection = await conexao.connect();
+        const selectNotes = "SELECT * FROM notepad.notes WHERE user_id = $1";
+        const result = await connection.query(selectNotes, [user_id]);
+        connection.release();
+
+        // Enviar as notas recuperadas como resposta
+        res.json(result.rows);
+    } catch (e) {
+        console.log(e);
+        res.status(500).json({ error: 'Erro ao recuperar as notas. Por favor, tente novamente.' });
     }
 });
 

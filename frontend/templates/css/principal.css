@@ -2,6 +2,8 @@ body {
   font-family: "Montserrat", sans-serif;
   background-color: #111111;
   color: #e3e3e3;
+  max-width: 100vw;
+  overflow-x: hidden;
 }
 
 header {
@@ -85,6 +87,12 @@ button {
 }
 
 .nota {
+  min-width: 120px;
+  min-height: 150px;
+  max-width: 120px;
+  max-height: 150px;
+  overflow: hidden;
+  transition: max-height 0.3s ease;
   background-color: #181818;
   border: 1px solid #ffc736;
   color: #e3e3e3;
@@ -92,9 +100,16 @@ button {
   border-radius: 8px;
 }
 
+.nota.expandida {
+  max-height: none;
+  width: 80%;
+  height: 80%;
+}
+
 .topo_nota {
   display: flex;
-  align-items: flex-start;
+  justify-content: space-between;
+  align-items: start;
   gap: 2rem;
 }
 

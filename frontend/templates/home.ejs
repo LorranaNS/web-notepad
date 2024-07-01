@@ -55,15 +55,22 @@
             </div>
         </div>
         <div class="div-notas">
-            <!-- Notas aqui -->
-        </div>
+            <div class="nota">
+                <div class="topo_nota">
+                    <p class="titulo-nota"></p>
+                    <img src="assets/icon_pontos.svg" alt="Ícone de Pontos" class="icone_opcoes">
+                </div>
+                <div class="conteudo-nota">
+                </div>
+            </div>
+        <div>
     </div>
 
     <div id="modal-criar-nota" class="modal">
         <div class="modal-content" id="content-criar">
             <span class="close">&times;</span>
             <div class="corpo-criar">
-                <input type="text" id="input-titulo" placeholder="Título da nota">
+                <input name="titulo" type="text" id="input-titulo" placeholder="Título da nota">
                 <textarea name="nota" id="texto-nota" placeholder="Texto da nota"></textarea>
                 <div class="div-btn">
                     <button id="btn-criar-nota">CRIAR</button>
@@ -78,49 +85,41 @@
             <div class="corpo-editar">
                 <input type="text" id="input-titulo-editar">
                 <textarea name="nota" id="texto-nota-editar"></textarea>
-                <div class="div-btn">
-                    <button id="btn-salvar-nota">SALVAR</button>
+            <div class="div-btn">
+                <button id="btn-salvar-nota">SALVAR</button>
                 </div>
             </div>
         </div>
     </div>
 
     <script>
-        // Obtenha os modais
         var modalCriar = document.getElementById("modal-criar-nota");
         var modalEditar = document.getElementById("modal-editar-nota");
         
-        // Obtenha os botões que abrem os modais
         var btnNovaNota = document.getElementById("btn_nova_nota");
         var btnEditarNota = document.querySelectorAll(".icone_opcoes");
 
-        // Obtenha os elementos <span> que fecham os modais
         var spanCriar = document.querySelector("#modal-criar-nota .close");
         var spanEditar = document.querySelector("#modal-editar-nota .close");
 
-        // Quando o usuário clicar no botão, abre o modal de criar nota
         btnNovaNota.onclick = function() {
             modalCriar.style.display = "block";
         }
 
-        // Quando o usuário clicar em <span> (x), fecha o modal de criar nota
         spanCriar.onclick = function() {
             modalCriar.style.display = "none";
         }
 
-        // Quando o usuário clicar em um dos ícones de opções, abre o modal de editar nota
         btnEditarNota.forEach(function(btn) {
             btn.onclick = function() {
                 modalEditar.style.display = "block";
             }
         });
 
-        // Quando o usuário clicar em <span> (x), fecha o modal de editar nota
         spanEditar.onclick = function() {
             modalEditar.style.display = "none";
         }
 
-        // Quando o usuário clicar fora do modal, fecha o modal
         window.onclick = function(event) {
             if (event.target == modalCriar) {
                 modalCriar.style.display = "none";
@@ -130,40 +129,80 @@
             }
         }
 
-        // Função para criar uma nova nota
         document.getElementById("btn-criar-nota").onclick = function() {
-        let title = document.getElementById("input-titulo").value;
-        let content = document.getElementById("texto-nota").value;
 
-        console.log("Título: ", title);
-        console.log("Conteúdo: ", content);
+            let titulo = document.getElementById("input-titulo").value;
+            let conteudo = document.getElementById("texto-nota").value;
 
-        fetch('/criarNota', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                title: title,
-                content: content
-            })
-        }).then(response => response.json())
-        .then(data => {
-            if(data.success) {
-                // Nota criada com sucesso
-                alert("Nota criada com sucesso!");
-                // Fechar o modal após criar a nota
-                document.getElementById('modal-criar-nota').style.display = "none";
-                // Limpar campos após criar a nota (opcional)
-                document.getElementById("input-titulo").value = "";
-                document.getElementById("texto-nota").value = "";
-                // Aqui você pode adicionar código para atualizar a lista de notas sem recarregar a página
-            } else {
-                // Exibir mensagem de erro
-                alert("Erro ao criar a nota: " + data.error);
-            }
-        });
+            fetch('/criarNota', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    title: titulo,
+                    content: conteudo
+                })
+            }).then(response => response.json())
+            .then(data => {
+                if(data.success) {
+                    alert("Nota criada com sucesso!");
+                   
+                    document.getElementById('modal-criar-nota').style.display = "none";
+                 
+                    document.getElementById("input-titulo").value = "";
+                    document.getElementById("texto-nota").value = "";
+                    
+                    const novaNota = criarElementoNota (titulo, conteudo);
+                    document.querySelector(".div-notas").appendChild(novaNota);
+                } else {
+                    alert(data.error);
+                }
+            });
         }
+
+
+
+        function criarElementoNota(titulo, conteudo) {
+            const divNota = document.createElement("div");
+            divNota.className = "nota";
+
+            const topoNota = document.createElement("div");
+            topoNota.className = "topo_nota";
+
+            const tituloNota = document.createElement("p");
+            tituloNota.className = "titulo-nota";
+            tituloNota.textContent = titulo;
+
+            const iconeOpcoes = document.createElement("img");
+            iconeOpcoes.src = "assets/icon_pontos.svg";
+            iconeOpcoes.alt = "Ícone de Pontos";
+            iconeOpcoes.className = "icone_opcoes";
+
+            topoNota.appendChild(tituloNota);
+            topoNota.appendChild(iconeOpcoes);
+
+            const conteudoNota = document.createElement("div");
+            conteudoNota.className = "conteudo-nota";
+            conteudoNota.textContent = conteudo;
+
+            divNota.appendChild(topoNota);
+            divNota.appendChild(conteudoNota);
+
+            return divNota;
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            fetch('/pegarNotas')
+            .then(response => response.json())
+            .then(notas => {
+                notas.forEach(nota => {
+                    const elementoNota = criarElementoNota(nota.title, nota.content);
+                    document.querySelector(".div-notas").appendChild(elementoNota);
+                });
+            })
+            .catch(error => console.error('Erro ao carregar notas:', error));
+        });
     </script>
   </body>
 </html>
