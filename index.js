@@ -9,7 +9,6 @@ app.use (express.json());
 
 
 const url_bancoDados = "postgresql://notepad_owner:msWqpU90OcLV@ep-wild-base-a53xmivn.us-east-2.aws.neon.tech/notepad?sslmode=require";
-// const url_bancoDados = "postgresql://Cljjg-2003@localhost:5432/activities";
 
 if (env.error) {
     console.error("Error loading .env file");
@@ -27,7 +26,7 @@ const conexao = new Pool({
 app.set('views', (path.join(__dirname, 'frontend/templates')));
 app.use(express.static(path.join(__dirname, "frontend/templates")));
 
-// middlweware para lidar com mensagens flash, que são armazenadas na sessão e limpas após serem exibidas ao usuário
+// Middlweware para lidar com mensagens flash, que são armazenadas na sessão e limpas após serem exibidas ao usuário.
 const session = require('express-session');
 const flash = require('connect-flash');
 
@@ -44,7 +43,7 @@ app.use ((req, res, next) => {
     res.locals.error_msg = req.flash('error_msg');
     next();
 });
-// Fim do flash
+// Fim do  Middleeware flash
 
 var bodyParser = require("body-parser");
 app.use(bodyParser.urlencoded({ extended: false}));
