@@ -8,19 +8,19 @@ const env = require('dotenv').config();
 app.use (express.json());
 
 
-const url_bancoDados = "postgresql://notepad_owner:msWqpU90OcLV@ep-wild-base-a53xmivn.us-east-2.aws.neon.tech/notepad?sslmode=require";
+// const url_bancoDados = "postgresql://notepad_owner:msWqpU90OcLV@ep-wild-base-a53xmivn.us-east-2.aws.neon.tech/notepad?sslmode=require";
 
 if (env.error) {
     console.error("Error loading .env file");
 }
 
 const conexao = new Pool({
-    connectionString: url_bancoDados,
-    // host: 'localhost',
-    // port: 5432,
-    // database: 'projetos',
-    // user: process.env.USER_BD,
-    // password: process.env.PASSWORD_BD
+    // connectionString: url_bancoDados,
+    host: 'localhost',
+    port: 5432,
+    database: 'projetos',
+    user: process.env.USER_BD,
+    password: process.env.PASSWORD_BD
 })
 
 app.set('views', (path.join(__dirname, 'frontend/templates')));

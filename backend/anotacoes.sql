@@ -1,8 +1,7 @@
-# SQL
-
-## TABLES 
-
 SET search_path TO public;
+
+SELECT * FROM users;
+SELECT * FROM notes;
 
 CREATE TABLE users (
 	id SERIAL PRIMARY KEY,	
