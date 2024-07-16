@@ -47,13 +47,32 @@ CREATE TABLE public.notes (
 
 ## Instalação
 
-1. Clone o repositório
+1. Clone o repositório:
 ```
-git clone https://github.com/seu-usuario/web-notepad.git
+git clone https://github.com/guiibrag4/web-notepad.git
 ```
-2. 
+2. Navegue até o diretório do projeto:
+```
+cd web-notepad
+```
+3.  Instale as dependências:
+```
+npm install
+```
+4.  Configure o arquivo .env com as informações do banco de dados:
+```
+USER_BD=seu-usuario
+PASSWORD_BD=sua-senha
+```
 
 ## Uso
+
+1. Inicie o servidor no terminal:
+```
+node index.js
+```
+
+2. Acesse http://localhost:3000 no seu navegador.
 
 ## Contribuindo
 
@@ -62,30 +81,29 @@ Contribuições são bem-vindas! Por favor, siga os passos abaixo para contribui
 1. Fork o repositório.
 2. Crie uma nova branch:
 
-    
-sh
-    git checkout -b feature/sua-feature
-
+```
+git checkout -b feature/sua-feature
+```
 
 3. Faça suas modificações.
 4. Faça o commit das suas alterações:
 
-    
-sh
-    git commit -m 'Adiciona nova funcionalidade'
+```
+git commit -m 'Adiciona nova funcionalidade'
+```
 
 
 5. Envie para o branch:
-
-    
-sh
-    git push origin feature/sua-feature
-
+```
+git push origin feature/sua-feature
+```
 
 6. Abra um Pull Request.
 
 ## Problemas Comuns
 
+* Erro ao carregar o arquivo .env: Certifique-se de que o arquivo .env está corretamente configurado e que as variáveis de ambiente estão corretas.
+* Banco de dados não conectado: Verifique se o banco de dados PostgreSQL está rodando e se as credenciais estão corretas.
 
 ## Contato
 
