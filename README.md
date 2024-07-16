@@ -1,4 +1,7 @@
-Bem-vindo ao web-notepad! Utilizamos um servidor em node.js e banco de dados, com CRUD completo, para construção de um bloco de anotações web. 
+Bem-vindo ao web-notepad! Utilizamos um servidor em node.js e banco de dados para construção de um bloco de anotações web. 
+
+![Gif projeto](https://github.com/user-attachments/assets/a225e538-7887-498c-97fc-d9fec10daa0d)
+
 
 ## Índice
 
