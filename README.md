@@ -2,14 +2,14 @@ Bem-vindo ao web-notepad! Utilizamos um servidor em node.js e banco de dados, co
 
 ## Índice
 
-- [📄Sobre o Projeto](#📄sobre-o-projeto)
-- [⚙️Como Funciona](#⚙️como-funciona)
-- [📋Pré-requisitos](#📋pré-requisitos)
-- [🛠️Instalação](#🛠️instalação)
-- [🚀Uso](#🚀uso)
-- [💡Contribuindo](#💡contribuindo)
-- [❓Problemas Comuns](#❓problemas-comuns)
-- [🤝Colaboradores do projeto](#🤝colaboradores-do-projeto)
+- [📄Sobre o Projeto](#sobre-o-projeto)
+- [🔎Como Funciona](#como-funciona)
+- [📋Pré-requisitos](#pré-requisitos)
+- [🔧Instalação](#instalação)
+- [🚀Uso](#uso)
+- [💡Contribuindo](#contribuindo)
+- [❓Problemas Comuns](#problemas-comuns)
+- [🤝Colaboradores do projeto](#colaboradores-do-projeto)
 
 <br>
 
@@ -18,7 +18,7 @@ Este projeto foi desenvolvido com o intuito de proporcionar ao usuário uma expe
 
 <br>
 
-## ⚙️Como Funciona
+## 🔎Como Funciona
 
 1. O usuário precisa fazer o cadastro e depois login para acessar as funcionalidades do bloco de anotações.
 2. Após o login, o usuário pode criar, ler, atualizar e excluir as suas notas.
@@ -52,7 +52,7 @@ CREATE TABLE public.notes (
 
 <br>
 
-## 🛠️Instalação
+## 🔧Instalação
 
 1. Clone o repositório:
 ```
