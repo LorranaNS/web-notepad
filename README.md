@@ -35,7 +35,7 @@ Certifique-se de ter os seguintes softwares instalados:
 * Node.js v20.14.0
 * PostgreSQL
 
-Além disso, é necessário configurar o banco de dados PostgreSQL com as seguintes tabelas:
+Além disso, é necessário configurar o banco de dados PostgreSQL local com as seguintes tabelas:
 
 ```
 CREATE TABLE public.users (
@@ -69,7 +69,7 @@ cd web-notepad
 ```
 npm install
 ```
-4.  Configure o arquivo .env com as informações do banco de dados:
+4.  crie e configure o arquivo ".env" com as informações do SEU banco de dados. copie e substitua "seu-usuario" e "sua-senha":
 ```
 USER_BD=seu-usuario
 PASSWORD_BD=sua-senha
